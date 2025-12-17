@@ -1,0 +1,28 @@
+{
+  "name": "backend-iii-preentrega1",
+  "version": "1.0.0",
+  "description": "Primera pre-entrega BackEnd III - Coderhouse",
+  "main": "src/app.js",
+  "type": "module",
+  "scripts": {
+    "start": "node src/app.js",
+    "dev": "nodemon src/app.js"
+  },
+  "keywords": [
+    "backend",
+    "nodejs",
+    "express",
+    "mongodb"
+  ],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@faker-js/faker": "^8.4.1",
+    "bcrypt": "^5.1.1",
+    "express": "^4.22.1",
+    "mongoose": "^8.20.2"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.11"
+  }
+}
