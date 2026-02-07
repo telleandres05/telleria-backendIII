@@ -1,73 +1,60 @@
-# AdoptMe - Backend III
+# AdoptMe - Sistema de Adopción de Mascotas
 
-Proyecto final del módulo Backend III de CoderHouse. Sistema de adopción de mascotas con API REST completa.
+Proyecto final del módulo Backend III
 
 ## Descripción
 
-AdoptMe es una aplicación backend que permite gestionar usuarios, mascotas y adopciones. Incluye funcionalidades de generación de datos mock para pruebas y está completamente dockerizada.
+API REST para gestionar adopciones de mascotas. Permite administrar usuarios, mascotas y procesos de adopción, incluyendo generación de datos de prueba y documentación completa con Swagger.
 
-## Tecnologías utilizadas
+## Tecnologías
 
 - Node.js v18
 - Express.js
-- MongoDB Atlas (Base de datos en la nube)
-- JWT para autenticación
-- Bcrypt para encriptación de contraseñas
-- Swagger para documentación API
-- Mocha y Chai para testing
-- Faker.js para generación de datos mock
-- Docker para containerización
+- MongoDB Atlas
+- JWT
+- Bcrypt
+- Swagger
+- Mocha/Chai
+- Faker.js
+- Docker
 
-## Instalación y Ejecución
+## Instalación
 
-### Opción 1: Ejecución Local
-
-1. Instalar dependencias:
 ```bash
 npm install
 ```
 
-2. Ejecutar el proyecto:
+## Ejecución
+
 ```bash
 npm start
 ```
 
 El servidor estará disponible en: http://localhost:8080
 
-### Opción 2: Con Docker (Recomendado)
+## Testing
 
-1. Construir la imagen:
 ```bash
-docker build -t adoptme-backend .
+# Terminal 1: Iniciar servidor
+npm start
+
+# Terminal 2: Ejecutar tests
+npm test
 ```
 
-2. Ejecutar el contenedor:
+## Endpoints
+
+### Mocks (Datos de Prueba)
+- `GET /api/mocks/mockingpets` - Genera 100 mascotas
+- `GET /api/mocks/mockingusers` - Genera 50 usuarios
+- `POST /api/mocks/generateData` - Inserta datos en BD
+
+Ejemplo:
 ```bash
-docker run -p 8080:8080 adoptme-backend
+curl -X POST http://localhost:8080/api/mocks/generateData \
+  -H "Content-Type: application/json" \
+  -d '{"users": 10, "pets": 20}'
 ```
-
-El servidor estará disponible en: http://localhost:8080
-
-## Imagen Docker Hub
-
-La imagen de este proyecto está disponible en Docker Hub:
-
-**[TU_USUARIO]/adoptme-backend:latest**
-
-Para descargar y ejecutar:
-```bash
-docker pull [TU_USUARIO]/adoptme-backend:latest
-docker run -p 8080:8080 [TU_USUARIO]/adoptme-backend:latest
-```
-
-## Endpoints principales
-
-### API Base
-- `GET /` - Información de la API y endpoints disponibles
-
-### Sessions (Autenticación)
-- `POST /api/sessions/register` - Registrar nuevo usuario
-- `POST /api/sessions/login` - Iniciar sesión
 
 ### Users
 - `GET /api/users` - Obtener todos los usuarios
@@ -86,53 +73,35 @@ docker run -p 8080:8080 [TU_USUARIO]/adoptme-backend:latest
 - `GET /api/adoptions/:aid` - Obtener adopción por ID
 - `POST /api/adoptions/:uid/:pid` - Crear adopción
 
-### Mocks (Datos de Prueba)
-- `GET /api/mocks/mockingpets` - Generar 100 mascotas mock
-- `GET /api/mocks/mockingusers` - Generar 50 usuarios mock
-- `POST /api/mocks/generateData` - Generar e insertar datos en BD
+### Sessions
+- `POST /api/sessions/register` - Registrar usuario
+- `POST /api/sessions/login` - Iniciar sesión
 
-#### Ejemplo de uso del endpoint generateData:
+## Documentación Swagger
+
+Accede a la documentación completa en:
+
+http://localhost:8080/api-docs
+
+## Docker
+
+### Imagen en Docker Hub
+
+**https://hub.docker.com/r/telle05/adoptme-backend**
+
+### Ejecutar con Docker
 
 ```bash
-curl -X POST http://localhost:8080/api/mocks/generateData \
-  -H "Content-Type: application/json" \
-  -d '{"users": 10, "pets": 20}'
+# Descargar imagen
+docker pull telle05/adoptme-backend:latest
+
+# Ejecutar contenedor
+docker run -p 8080:8080 telle05/adoptme-backend:latest
 ```
 
-## Documentación API con Swagger
+Accede a: http://localhost:8080
 
-Accede a la documentación completa en: http://localhost:8080/api-docs
-
-## Testing
-
-**IMPORTANTE:** El servidor debe estar corriendo antes de ejecutar los tests.
-
-1. En una terminal, iniciar el servidor:
-```bash
-npm start
-```
-
-2. En otra terminal, ejecutar los tests:
-```bash
-npm test
-```
-
-## Características Implementadas
-
-### Consigna 1 - Mocks Router ✓
-- Router `/api/mocks` con endpoints para generación de datos
-- Módulo de mocking para usuarios con contraseña encriptada "coder123"
-- Generación de usuarios con roles aleatorios (user/admin)
-- Endpoint para insertar datos masivos en la base de datos
-
-### Consigna 2 - Documentación, Tests y Docker ✓
-- Documentación Swagger completa del módulo Users
-- Tests funcionales para todos los endpoints de adoption.router.js
-- Dockerfile funcional para crear imagen del proyecto
-- Imagen subida a Docker Hub
-- README.md con instrucciones completas
-
-## Estructura del proyecto
+## Estructura del Proyecto
 
 ```
 adoptme/
@@ -140,11 +109,9 @@ adoptme/
 │   ├── controllers/
 │   ├── dao/
 │   ├── docs/
-│   │   └── users.swagger.js
 │   ├── dto/
 │   ├── repository/
 │   ├── routes/
-│   │   └── mocks.router.js
 │   ├── services/
 │   ├── utils/
 │   ├── app.js
@@ -154,44 +121,22 @@ adoptme/
 │   └── adoption.test.js
 ├── Dockerfile
 ├── .dockerignore
-├── package.json
-└── README.md
+└── package.json
 ```
 
-## Variables de Entorno
+## Características Implementadas
 
-El proyecto está configurado para usar MongoDB Atlas (base de datos en la nube).
-La URL de conexión ya está incluida en el código.
-
-Si necesitas cambiarla, puedes crear un archivo `.env`:
-
-```
-MONGO_URL=tu_url_de_mongodb
-PORT=8080
-```
-
-## Guía Docker
-
-Para instrucciones detalladas de Docker, consulta: `DOCKER-GUIA.md`
-
-Resumen rápido:
-```bash
-# Construir imagen
-docker build -t adoptme-backend .
-
-# Ejecutar contenedor
-docker run -p 8080:8080 adoptme-backend
-
-# Subir a Docker Hub
-docker login
-docker tag adoptme-backend TU_USUARIO/adoptme-backend:latest
-docker push TU_USUARIO/adoptme-backend:latest
-```
+- Endpoint para generar mascotas mock
+- Endpoint para generar usuarios mock con contraseña "coder123" encriptada
+- Endpoint para insertar datos masivos en BD
+- Tests funcionales completos para adoption router
+- Documentación Swagger del módulo Users
+- Dockerfile funcional
+- Imagen publicada en Docker Hub
 
 ## Autor
 
-Proyecto desarrollado para CoderHouse - Full Stack Developer
-Curso: Backend III
+Andres Telleria
 
 ## Licencia
 
