@@ -1,59 +1,24 @@
-import petModel from '../models/Pet.js';
+import petModel from "./models/Pet.js";
 
-class PetsDao {
+export default class Pet {
 
-  async getAll() {
-    try {
-      return await petModel.find({});
-    } catch (error) {
-      throw new Error(`Error al obtener pets: ${error.message}`);
+    get = (params) =>{
+        return petModel.find(params)
     }
-  }
 
-  // Obtener por ID
-  async getById(id) {
-    try {
-      return await petModel.findById(id);
-    } catch (error) {
-      throw new Error(`Error al obtener pet: ${error.message}`);
+    getBy = (params) =>{
+        return petModel.findOne(params);
     }
-  }
 
-  // Creacion
-  async create(petData) {
-    try {
-      return await petModel.create(petData);
-    } catch (error) {
-      throw new Error(`Error al crear pet: ${error.message}`);
+    save = (doc) =>{
+        return petModel.create(doc);
     }
-  }
 
-  // Crear múltiples pets
-  async createMany(petsData) {
-    try {
-      return await petModel.insertMany(petsData);
-    } catch (error) {
-      throw new Error(`Error al crear pet: ${error.message}`);
+    update = (id,doc) =>{
+        return petModel.findByIdAndUpdate(id,{$set:doc})
     }
-  }
 
-  // Actualizacion
-  async update(id, petData) {
-    try {
-      return await petModel.findByIdAndUpdate(id, petData, { new: true });
-    } catch (error) {
-      throw new Error(`Error al actualizar pet: ${error.message}`);
+    delete = (id) =>{
+        return petModel.findByIdAndDelete(id);
     }
-  }
-
-  // Eliminar
-  async delete(id) {
-    try {
-      return await petModel.findByIdAndDelete(id);
-    } catch (error) {
-      throw new Error(`Error al eliminar pet: ${error.message}`);
-    }
-  }
 }
-
-export default new PetsDao();

@@ -1,31 +1,34 @@
-import express from 'express';
-import mongoose from 'mongoose';
-import mocksRouter from './routes/mocks.router.js';
+import express from 'express'
+import mongoose from 'mongoose'
+import cookieParser from 'cookie-parser'
 
-const app = express();
-const PORT = 8080;
+import usersRouter from './routes/users.router.js'
+import petsRouter from './routes/pets.router.js'
+import adoptionsRouter from './routes/adoption.router.js'
+import sessionsRouter from './routes/sessions.router.js'
+import mocksRouter from './routes/mocks.router.js'
 
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+import { setupSwagger } from './swagger.config.js'
 
-// Conexión a MongoDB 
-mongoose.connect('mongodb+srv://andrestelleria579_db_user:ieK968FgqTMkcmod@cluster0.bosvwq7.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0', {
-  useNewUrlParser: true,
-  useUnifiedTopology: true
-})
-.then(() => console.log('Conectado a MongoDB'))
-.catch(err => console.error('Error al conectar a MongoDB:', err));
+const app = express()
+const PORT = process.env.PORT || 8080
+const MONGO_URL = process.env.MONGO_URL || 'mongodb://localhost:27017/adoptme'
 
-// Rutas
-app.use('/api/mocks', mocksRouter);
+mongoose.connect(MONGO_URL)
+    .then(() => console.log('✅ Conectado a MongoDB'))
+    .catch(err => console.error('❌ Error de conexión a MongoDB:', err))
 
-app.get('/', (req, res) => {
-  res.send('API funcionando correctamente');
-});
+app.use(express.json())
+app.use(cookieParser())
 
-app.listen(PORT, () => {
-  console.log(` Servidor corriendo en http://localhost:${PORT}`);
-});
+app.use('/api/users', usersRouter)
+app.use('/api/pets', petsRouter)
+app.use('/api/adoptions', adoptionsRouter)
+app.use('/api/sessions', sessionsRouter)
+app.use('/api/mocks', mocksRouter)
 
-export default app;
+setupSwagger(app)
 
+app.listen(PORT, () => console.log(`🚀 Servidor escuchando en puerto ${PORT}`))
+
+export default app
