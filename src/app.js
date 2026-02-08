@@ -7,12 +7,15 @@ import petsRouter from './routes/pets.router.js'
 import adoptionsRouter from './routes/adoption.router.js'
 import sessionsRouter from './routes/sessions.router.js'
 import mocksRouter from './routes/mocks.router.js'
+import dotenv from 'dotenv'
+
+dotenv.config()
 
 import { setupSwagger } from './swagger.config.js'
 
 const app = express()
 const PORT = process.env.PORT || 8080
-const MONGO_URL = process.env.MONGO_URL || 'mongodb+srv://andrestelleria579_db_user:N6ej3lsONxQbYs8D@cluster0.8loyvnz.mongodb.net/?appName=Cluster0'
+const MONGO_URL = process.env.MONGO_URL
 
 console.log('Conectando a MongoDB...')
 
